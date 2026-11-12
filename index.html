@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>옥션&액션 — 실시간 경매 하우스</title>
+  <meta name="description" content="비공개 최대 금액, 선착순, 하향 경매까지. 등록부터 실시간 입찰, 자동 낙찰, 결제 정산으로 이어지는 경매 프로토타입." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23ff3b1f'/%3E%3Ctext x='32' y='46' font-size='38' font-family='Arial' font-weight='900' fill='%23fffcf5' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+  <a class="skip-link" href="#view">본문으로 이동</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#/" aria-label="옥션 앤 액션 홈">
+        <span class="brand-mark">A</span>
+        <span class="brand-word">옥션<span class="amp">&amp;</span>액션</span>
+        <span class="brand-sub">AUCTION<br />&amp; ACTION</span>
+      </a>
+
+      <nav class="main-nav" aria-label="주요 메뉴">
+        <a href="#/" data-nav="home">경매장</a>
+        <a href="#/new" data-nav="new">상품 등록</a>
+        <a href="#/settlements" data-nav="settlements">정산 센터</a>
+      </nav>
+
+      <div class="header-tools">
+        <button type="button" class="bot-toggle" id="botToggle" title="봉인 입찰에 라이벌 봇이 참여합니다">
+          <span class="bot-led"></span>
+          <span class="bot-label">라이벌 봇</span>
+          <span class="switch" aria-hidden="true"><i></i></span>
+        </button>
+        <button type="button" class="profile-chip" id="profileChip" aria-label="내 프로필 열기">
+          <span class="avatar" id="profileAvatar">액</span>
+          <span class="profile-meta">
+            <span class="profile-label">MY ACCOUNT</span>
+            <span class="profile-name" id="profileName">액션러버</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="view" class="view" tabindex="-1"></main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <strong>옥션<span class="amp">&amp;</span>액션</strong>
+        <small>AUCTION &amp; ACTION · PROTOTYPE</small>
+      </div>
+      <p>모든 거래와 결제는 데모로 처리되며, 데이터는 이 브라우저의 localStorage에만 저장됩니다.</p>
+      <div class="footer-actions">
+        <a href="#/new">경매 등록</a>
+        <button type="button" data-action="reset-demo">데모 초기화</button>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toasts" class="toasts" aria-live="polite" aria-atomic="false"></div>
+  <div id="modal" class="modal-root" hidden></div>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

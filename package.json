@@ -1,0 +1,13 @@
+{
+  "name": "auction-and-action",
+  "version": "1.0.0",
+  "private": true,
+  "description": "옥션&액션 — 실시간 입찰·자동 낙찰·모의 결제·정산 프로토타입",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/narayo20/auction-action.git"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
