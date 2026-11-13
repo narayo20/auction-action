@@ -1,14 +1,26 @@
-# 옥션&액션 — Auction & Action
+# auction-action
+
+**옥션&액션** — 실시간 입찰·자동 낙찰·모의 결제·정산 경매 프로토타입.
 
 등록 → 실시간 입찰 → 시간 만료 자동 낙찰 → 모의 결제 → 정산까지 이어지는
 상태 기반 경매 웹 프로토타입입니다. 서버나 빌드 도구 없이 브라우저에서 바로 동작하며,
 데이터는 `localStorage`에 저장됩니다. 딥 버건디 배경과 심장박동 애니메이션으로
 경매의 긴장감을 강조합니다.
 
-## 실행
+## 바로 실행
+
+| 방법 | 주소 | 준비물 |
+| --- | --- | --- |
+| GitHub Pages | <https://narayo20.github.io/auction-action/> | 없음 (브라우저만) |
+| 로컬 | <http://localhost:4173> | Node.js |
+
+`main` 브랜치의 정적 파일을 그대로 배포합니다(Pages → Deploy from a branch → `main` / `/`).
+빌드 단계가 없으므로 푸시 후 1분 이내에 자동 반영됩니다.
+
+## 로컬 실행
 
 ```bash
-node server.js
+npm start
 ```
 
 브라우저에서 <http://localhost:4173> 접속.
@@ -70,8 +82,9 @@ active ──(마감)──▶ won(결제 대기) ──(모의 결제)──▶
 ## 파일 구조
 
 ```
-Auction/
+auction-action/
 ├─ index.html
+├─ .nojekyll                     # Jekyll 처리 없이 정적 파일 그대로 배포
 ├─ server.js              # 의존성 없는 정적 서버
 ├─ css/styles.css         # 디자인 시스템·반응형
 └─ js/
