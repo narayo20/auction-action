@@ -809,6 +809,36 @@ ul, ol, dl, dd { margin: 0; padding: 0; list-style: none; }
 }
 .chip:hover { border-color: var(--ink); color: var(--ink); background: var(--paper); }
 
+/* 종료 일정 확인 */
+.end-field-row { display: flex; align-items: stretch; gap: 7px; }
+.end-field-row input { flex: 1; width: auto; min-width: 0; }
+.end-check-btn { flex-shrink: 0; padding: 0 15px; font-size: 12px; border-radius: 12px; white-space: nowrap; }
+.end-check-btn.is-checked { background: var(--green); border-color: var(--green); color: #fff; }
+.end-check-btn.is-checked:hover { box-shadow: 3px 3px 0 rgba(12, 138, 95, 0.28); }
+.end-check-result {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 9px 11px; border: 1px solid var(--line); border-radius: 10px;
+  background: #fff; font-size: 11px; line-height: 1.5;
+  animation: pop 0.18s ease;
+}
+.end-check-result[hidden] { display: none; }
+.end-check-icon {
+  flex-shrink: 0; display: grid; place-items: center;
+  width: 17px; height: 17px; margin-top: 1px; border-radius: 50%;
+  background: var(--green); color: #fff; font-size: 10px; font-weight: 700; line-height: 1;
+}
+.end-check-copy { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.end-check-copy strong { font-size: 12px; font-weight: 700; letter-spacing: -0.01em; }
+.end-check-copy small { color: var(--muted); font-size: 10px; }
+.end-check-result.ok { border-color: rgba(12, 138, 95, 0.4); background: rgba(12, 138, 95, 0.06); }
+.end-check-result.ok .end-check-copy strong { color: var(--green); }
+.end-check-result.stale { border-color: rgba(217, 146, 18, 0.45); background: rgba(255, 209, 102, 0.16); }
+.end-check-result.stale .end-check-icon { background: #d99212; }
+.end-check-result.stale .end-check-copy strong { color: #8a6410; }
+.end-check-result.error { border-color: rgba(255, 59, 31, 0.45); background: rgba(255, 59, 31, 0.07); }
+.end-check-result.error .end-check-icon { background: var(--accent); }
+.end-check-result.error .end-check-copy strong { color: var(--accent-dark); }
+
 .type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .type-card {
   position: relative; display: flex; flex-direction: column; gap: 6px;

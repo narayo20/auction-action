@@ -73,10 +73,14 @@ export function newView(s) {
                   <input id="startPriceInput" name="startPrice" type="text" inputmode="numeric" required placeholder="0" data-money />
                 </div>
               </label>
-              <label class="field">
-                <span>경매 종료 시각 <em class="required">필수</em></span>
-                <input id="endAtInput" name="endAt" type="datetime-local" required value="${endAt}" min="${toInputDateTime(Date.now() + 60000)}" />
-              </label>
+              <div class="field">
+                <span id="endAtLabel">경매 종료 시각 <em class="required">필수</em></span>
+                <div class="end-field-row">
+                  <input id="endAtInput" name="endAt" type="datetime-local" required aria-labelledby="endAtLabel" value="${endAt}" min="${toInputDateTime(Date.now() + 60000)}" />
+                  <button type="button" class="btn ghost end-check-btn" id="endCheckBtn" aria-controls="endCheckResult">확인</button>
+                </div>
+                <p class="end-check-result" id="endCheckResult" role="status" aria-live="polite" hidden></p>
+              </div>
             </div>
 
             <div class="quick-row" aria-label="마감 시간 빠른 선택">

@@ -3,8 +3,8 @@
 import * as store from "./store.js";
 import {
   won, esc, maskName, toast, openModal, closeModal, confirmDialog,
-  compressImage, debounce, formatMoneyTyping, toInputDateTime, fmtDateTime,
-  parseAmount, timeLeftText, initials,
+  compressImage, debounce, formatMoneyTyping, toInputDateTime, fmtDateTime, fmtSchedule,
+  parseAmount, timeLeftText, timeLeftLabel, initials,
 } from "./util.js";
 import { homeView } from "./views/home.js";
 import { detailView } from "./views/detail.js";
@@ -385,6 +385,57 @@ function bindNewForm(s) {
     if (endAtInput.value) previewEnd.textContent = fmtDateTime(new Date(endAtInput.value).getTime());
   }
 
+  /* ---------------- 종료 일정 확인 ---------------- */
+
+  const endCheckBtn = document.getElementById("endCheckBtn");
+  const endCheckResult = document.getElementById("endCheckResult");
+  let confirmedEndAt = 0;
+
+  function renderEndCheck(state, icon, html) {
+    endCheckResult.hidden = !html;
+    endCheckResult.className = `end-check-result ${state}`;
+    endCheckResult.innerHTML = html
+      ? `<span class="end-check-icon" aria-hidden="true">${icon}</span><span class="end-check-copy">${html}</span>`
+      : "";
+    endCheckBtn.classList.toggle("is-checked", state === "ok");
+  }
+
+  function endScheduleError(message) {
+    confirmedEndAt = 0;
+    renderEndCheck("error", "!", `<strong>마감 일정을 확인할 수 없습니다.</strong><small>${esc(message)}</small>`);
+    toast(message, "error");
+    endAtInput.focus();
+    return false;
+  }
+
+  function checkEndSchedule({ quiet = false } = {}) {
+    const raw = endAtInput.value;
+    if (!raw) return endScheduleError("경매 종료 시각을 먼저 지정해 주세요.");
+    const ts = new Date(raw).getTime();
+    if (!Number.isFinite(ts)) return endScheduleError("날짜 형식이 올바르지 않습니다. 다시 지정해 주세요.");
+    const left = ts - Date.now();
+    if (left < 60 * 1000) return endScheduleError("마감 시각은 지금부터 최소 1분 뒤로 지정해야 합니다.");
+
+    confirmedEndAt = ts;
+    renderEndCheck("ok", "✓",
+      `<strong>${fmtSchedule(ts)}</strong><small>${timeLeftLabel(left)} · 이 일정으로 경매가 마감됩니다.</small>`);
+    if (!quiet) toast("마감 일정을 확인했습니다.", "success");
+    return true;
+  }
+
+  function ensureEndConfirmed() {
+    const ts = new Date(endAtInput.value || 0).getTime();
+    if (confirmedEndAt && confirmedEndAt === ts) return true;
+    return checkEndSchedule({ quiet: true });
+  }
+
+  function markEndDirty() {
+    if (!confirmedEndAt) return;
+    confirmedEndAt = 0;
+    renderEndCheck("stale", "!",
+      "<strong>마감 일정이 변경되었습니다.</strong><small>확인 버튼을 눌러 다시 확인해 주세요.</small>");
+  }
+
   function showImage() {
     if (draftImage) {
       dropImage.src = draftImage;
@@ -452,6 +503,7 @@ function bindNewForm(s) {
       const minutes = Number(btn.dataset.quickEnd);
       endAtInput.value = toInputDateTime(Date.now() + minutes * 60000);
       updatePreview();
+      markEndDirty();
     });
   });
 
@@ -464,11 +516,23 @@ function bindNewForm(s) {
 
   titleInput.addEventListener("input", updatePreview);
   sellerInput.addEventListener("input", updatePreview);
-  endAtInput.addEventListener("change", updatePreview);
+  endAtInput.addEventListener("input", () => {
+    updatePreview();
+    markEndDirty();
+  });
+  endAtInput.addEventListener("change", () => {
+    updatePreview();
+    markEndDirty();
+  });
+  endCheckBtn.addEventListener("click", () => checkEndSchedule());
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     errorEl.textContent = "";
+    if (!ensureEndConfirmed()) {
+      errorEl.textContent = "경매 종료 시각을 확인해 주세요.";
+      return;
+    }
     submitBtn.disabled = true;
     submitBtn.textContent = "등록 중...";
     const fd = new FormData(form);

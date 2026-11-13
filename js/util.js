@@ -33,6 +33,15 @@ export function fmtDate(ts) {
   return `${d.getFullYear()}.${pad2(d.getMonth() + 1)}.${pad2(d.getDate())}`;
 }
 
+const WEEKDAYS = ["일", "월", "화", "수", "목", "금", "토"];
+
+/** 마감 일정 확인용: 2026년 11월 13일 (금) 21:00 */
+export function fmtSchedule(ts) {
+  if (!ts) return "—";
+  const d = new Date(ts);
+  return `${d.getFullYear()}년 ${d.getMonth() + 1}월 ${d.getDate()}일 (${WEEKDAYS[d.getDay()]}) ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+}
+
 export function fmtTime(ts) {
   if (!ts) return "—";
   const d = new Date(ts);
